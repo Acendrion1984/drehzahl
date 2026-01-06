@@ -1,142 +1,421 @@
 <!DOCTYPE html>
-
 <html lang="de">
-
 <head>
-
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drehzahlrechner für Oberflächengeschwindigkeit</title>
-
     <style>
-
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-gray: #f5f7fa;
+            --border-color: #ddd;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-
-            font-family: Arial, sans-serif;
-
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
             text-align: center;
-
-            margin-top: 40px;
-
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
         }
-
-        input, button {
-
-            margin: 10px;
-
-            padding: 10px;
-
-            font-size: 16px;
-
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
         }
-
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-section, .result-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
         label {
-
             display: block;
-
-            margin-top: 15px;
-
-            font-weight: bold;
-
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
         }
-
-        .result {
-
-            margin-top: 20px;
-
-            font-size: 18px;
-
+        
+        .input-with-unit {
+            display: flex;
+            align-items: center;
         }
-
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .unit {
+            margin-left: 10px;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 50px;
+        }
+        
+        .info-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .calculate-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .calculate-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background-color: #f1f1f1;
+            color: var(--text-color);
+        }
+        
+        .reset-btn:hover {
+            background-color: #ddd;
+        }
+        
+        .result-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .result-box {
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .result-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+        
+        .result-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .formula {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 30px;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .formula h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .formula-text {
+            font-family: monospace;
+            font-size: 1.1rem;
+            background-color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .explanation {
+            margin-top: 40px;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .explanation h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .explanation p {
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
     </style>
-
 </head>
-
 <body>
-
-    <h1>Drehzahlrechner</h1>
-
-    <p>Berechne die schnelle Drehzahl für Mantelfläche und Stirnradius</p>
-
-
-
-    <label for="geschwindigkeit">Oberflächengeschwindigkeit (m/s):</label>
-
-    <input type="number" id="geschwindigkeit" placeholder="z. B. 30">
-
-
-
-    <label for="aussen">min. Außen-Durchmesser (mm):</label>
-
-    <input type="number" id="aussen" placeholder="z. B. 120">
-
-
-
-    <label for="spiegel">Spiegeldurchmesser (mm):</label>
-
-    <input type="number" id="spiegel" placeholder="z. B. 60">
-
-
-
-    <br>
-
-    <button onclick="berechneDrehzahlen()">Berechnen</button>
-
-
-
-    <div class="result" id="ergebnis1">Schnelle Drehzahl Mantelfläche: </div>
-
-    <div class="result" id="ergebnis2">Schnelle Drehzahl Stirnradius: </div>
-
-
+    <header>
+        <h1>Drehzahlrechner für Oberflächengeschwindigkeit</h1>
+        <p class="subtitle">Berechnen Sie die erforderliche Drehzahl für Mantelfläche und Stirnradius basierend auf der gewünschten Oberflächengeschwindigkeit und Durchmessern</p>
+    </header>
+    
+    <div class="container">
+        <div class="input-section">
+            <h2>Eingabewerte</h2>
+            
+            <div class="input-group">
+                <label for="geschwindigkeit">Oberflächengeschwindigkeit</label>
+                <div class="input-with-unit">
+                    <input type="number" id="geschwindigkeit" placeholder="z.B. 30" min="0.1" step="0.1">
+                    <span class="unit">m/s</span>
+                </div>
+                <p class="info-text">Die gewünschte Geschwindigkeit an der Werkzeug-Oberfläche</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="aussen">Minimaler Außendurchmesser</label>
+                <div class="input-with-unit">
+                    <input type="number" id="aussen" placeholder="z.B. 120" min="0.1" step="0.1">
+                    <span class="unit">mm</span>
+                </div>
+                <p class="info-text">Der kleinste Durchmesser der Mantelfläche</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="spiegel">Spiegeldurchmesser</label>
+                <div class="input-with-unit">
+                    <input type="number" id="spiegel" placeholder="z.B. 60" min="0.1" step="0.1">
+                    <span class="unit">mm</span>
+                </div>
+                <p class="info-text">Durchmesser für die Stirnradius-Berechnung</p>
+            </div>
+            
+            <div class="button-group">
+                <button class="calculate-btn" onclick="berechneDrehzahlen()">Drehzahlen berechnen</button>
+                <button class="reset-btn" onclick="resetForm()">Eingaben zurücksetzen</button>
+            </div>
+        </div>
+        
+        <div class="result-section">
+            <h2>Ergebnisse</h2>
+            
+            <div class="result-box">
+                <div class="result-title">Schnelle Drehzahl Mantelfläche</div>
+                <div class="result-value" id="ergebnis1">–</div>
+                <div class="result-details">Berechnet aus minimalem Außendurchmesser</div>
+            </div>
+            
+            <div class="result-box">
+                <div class="result-title">Schnelle Drehzahl Stirnradius</div>
+                <div class="result-value" id="ergebnis2">–</div>
+                <div class="result-details">Berechnet aus Spiegeldurchmesser</div>
+            </div>
+            
+            <div class="formula">
+                <h3>Berechnungsformel</h3>
+                <p>Die Drehzahl wird berechnet nach:</p>
+                <div class="formula-text">n = (v × 60) / (π × d)</div>
+                <p>wobei:<br>
+                <strong>n</strong> = Drehzahl in U/min<br>
+                <strong>v</strong> = Oberflächengeschwindigkeit in m/s<br>
+                <strong>d</strong> = Durchmesser in Metern</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="explanation">
+        <h2>Erklärung</h2>
+        <p>Dieser Rechner bestimmt die erforderliche Drehzahl für eine gegebene Oberflächengeschwindigkeit (Schnittgeschwindigkeit) an zwei verschiedenen Stellen eines rotierenden Werkzeugs:</p>
+        <p><strong>Mantelfläche:</strong> Die seitliche Fläche des Werkzeugs, berechnet mit dem minimalen Außendurchmesser.</p>
+        <p><strong>Stirnradius:</strong> Die Stirnseite des Werkzeugs, berechnet mit dem Spiegeldurchmesser.</p>
+        <p>Die Oberflächengeschwindigkeit (v) wird in Metern pro Sekunde (m/s) angegeben. Die Durchmesser werden in Millimetern (mm) eingegeben und für die Berechnung in Meter (m) umgerechnet.</p>
+    </div>
+    
+    <footer>
+        <p>Drehzahlrechner für Oberflächengeschwindigkeit | Entwickelt für Präzisionsberechnungen in der Fertigungstechnik</p>
+    </footer>
 
     <script>
-
         function berechneDrehzahlen() {
-
+            // Werte aus den Eingabefeldern lesen
             const v = parseFloat(document.getElementById('geschwindigkeit').value);
-
             const d1 = parseFloat(document.getElementById('aussen').value);
-
             const d2 = parseFloat(document.getElementById('spiegel').value);
-
-
-
-            if (isNaN(v) || isNaN(d1) || isNaN(d2) || d1 <= 0 || d2 <= 0) {
-
-                document.getElementById('ergebnis1').innerText = "Bitte gültige Werte eingeben.";
-
-                document.getElementById('ergebnis2').innerText = "";
-
+            
+            // Validierung der Eingaben
+            if (isNaN(v) || isNaN(d1) || isNaN(d2) || v <= 0 || d1 <= 0 || d2 <= 0) {
+                document.getElementById('ergebnis1').innerText = "Ungültige Eingabe";
+                document.getElementById('ergebnis2').innerText = "Ungültige Eingabe";
+                
+                // Fehlermeldung anzeigen
+                if (isNaN(v) || v <= 0) {
+                    alert("Bitte geben Sie eine gültige Oberflächengeschwindigkeit (größer als 0) ein.");
+                    document.getElementById('geschwindigkeit').focus();
+                } else if (isNaN(d1) || d1 <= 0) {
+                    alert("Bitte geben Sie einen gültigen minimalen Außendurchmesser (größer als 0) ein.");
+                    document.getElementById('aussen').focus();
+                } else if (isNaN(d2) || d2 <= 0) {
+                    alert("Bitte geben Sie einen gültigen Spiegeldurchmesser (größer als 0) ein.");
+                    document.getElementById('spiegel').focus();
+                }
                 return;
-
             }
-
-
-
+            
+            // Durchmesser von mm in m umrechnen
             const d1_m = d1 / 1000;
-
             const d2_m = d2 / 1000;
-
-
-
+            
+            // Drehzahlen berechnen: n = (v * 60) / (π * d)
             const n1 = Math.round((v * 60) / (Math.PI * d1_m));
-
             const n2 = Math.round((v * 60) / (Math.PI * d2_m));
-
-
-
-            document.getElementById('ergebnis1').innerText = `Schnelle Drehzahl Mantelfläche (min. Außen-Durchmesser): ${n1} U/min`;
-
-            document.getElementById('ergebnis2').innerText = `Schnelle Drehzahl Stirnradius (Spiegeldurchmesser): ${n2} U/min`;
-
+            
+            // Ergebnisse formatieren und anzeigen
+            document.getElementById('ergebnis1').innerText = `${n1.toLocaleString('de-DE')} U/min`;
+            document.getElementById('ergebnis2').innerText = `${n2.toLocaleString('de-DE')} U/min`;
+            
+            // Hervorhebung der Ergebnisse mit einer Animation
+            highlightResults();
         }
-
+        
+        function resetForm() {
+            // Alle Eingabefelder zurücksetzen
+            document.getElementById('geschwindigkeit').value = '';
+            document.getElementById('aussen').value = '';
+            document.getElementById('spiegel').value = '';
+            
+            // Ergebnisse zurücksetzen
+            document.getElementById('ergebnis1').innerText = '–';
+            document.getElementById('ergebnis2').innerText = '–';
+            
+            // Fokus auf erstes Feld setzen
+            document.getElementById('geschwindigkeit').focus();
+        }
+        
+        function highlightResults() {
+            // Visuelle Hervorhebung der Ergebnisse
+            const results = document.querySelectorAll('.result-value');
+            results.forEach(result => {
+                result.style.transition = 'color 0.5s, transform 0.5s';
+                result.style.color = '#e74c3c';
+                result.style.transform = 'scale(1.05)';
+                
+                // Nach 0.5 Sekunden zurücksetzen
+                setTimeout(() => {
+                    result.style.transform = 'scale(1)';
+                }, 500);
+            });
+        }
+        
+        // Tastatur-Unterstützung: Berechnung mit Enter-Taste
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        berechneDrehzahlen();
+                    }
+                });
+            });
+            
+            // Beispieleingaben für Demo-Zwecke
+            // Diese können entfernt werden, wenn nicht gewünscht
+            document.getElementById('geschwindigkeit').value = '30';
+            document.getElementById('aussen').value = '120';
+            document.getElementById('spiegel').value = '60';
+        });
     </script>
-
 </body>
-
 </html>
-
-
-
