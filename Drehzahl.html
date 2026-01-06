@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Drehzahlrechner für Oberflächengeschwindigkeit</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            text-align: center;
+
+            margin-top: 40px;
+
+        }
+
+        input, button {
+
+            margin: 10px;
+
+            padding: 10px;
+
+            font-size: 16px;
+
+        }
+
+        label {
+
+            display: block;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+
+        }
+
+        .result {
+
+            margin-top: 20px;
+
+            font-size: 18px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Drehzahlrechner</h1>
+
+    <p>Berechne die schnelle Drehzahl für Mantelfläche und Stirnradius</p>
+
+
+
+    <label for="geschwindigkeit">Oberflächengeschwindigkeit (m/s):</label>
+
+    <input type="number" id="geschwindigkeit" placeholder="z. B. 30">
+
+
+
+    <label for="aussen">min. Außen-Durchmesser (mm):</label>
+
+    <input type="number" id="aussen" placeholder="z. B. 120">
+
+
+
+    <label for="spiegel">Spiegeldurchmesser (mm):</label>
+
+    <input type="number" id="spiegel" placeholder="z. B. 60">
+
+
+
+    <br>
+
+    <button onclick="berechneDrehzahlen()">Berechnen</button>
+
+
+
+    <div class="result" id="ergebnis1">Schnelle Drehzahl Mantelfläche: </div>
+
+    <div class="result" id="ergebnis2">Schnelle Drehzahl Stirnradius: </div>
+
+
+
+    <script>
+
+        function berechneDrehzahlen() {
+
+            const v = parseFloat(document.getElementById('geschwindigkeit').value);
+
+            const d1 = parseFloat(document.getElementById('aussen').value);
+
+            const d2 = parseFloat(document.getElementById('spiegel').value);
+
+
+
+            if (isNaN(v) || isNaN(d1) || isNaN(d2) || d1 <= 0 || d2 <= 0) {
+
+                document.getElementById('ergebnis1').innerText = "Bitte gültige Werte eingeben.";
+
+                document.getElementById('ergebnis2').innerText = "";
+
+                return;
+
+            }
+
+
+
+            const d1_m = d1 / 1000;
+
+            const d2_m = d2 / 1000;
+
+
+
+            const n1 = Math.round((v * 60) / (Math.PI * d1_m));
+
+            const n2 = Math.round((v * 60) / (Math.PI * d2_m));
+
+
+
+            document.getElementById('ergebnis1').innerText = `Schnelle Drehzahl Mantelfläche (min. Außen-Durchmesser): ${n1} U/min`;
+
+            document.getElementById('ergebnis2').innerText = `Schnelle Drehzahl Stirnradius (Spiegeldurchmesser): ${n2} U/min`;
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+
+
