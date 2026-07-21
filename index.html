@@ -1,421 +1,784 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drehzahlrechner</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-gray: #f5f7fa;
-            --border-color: #ddd;
-            --text-color: #333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-gray);
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-        
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 2.2rem;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .input-section, .result-section {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-        
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .input-with-unit {
-            display: flex;
-            align-items: center;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            font-size: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 4px;
-            transition: border-color 0.3s;
-        }
-        
-        input:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-        }
-        
-        .unit {
-            margin-left: 10px;
-            font-weight: 600;
-            color: var(--primary-color);
-            min-width: 50px;
-        }
-        
-        .info-text {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        button {
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex: 1;
-        }
-        
-        .calculate-btn {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .calculate-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .reset-btn {
-            background-color: #f1f1f1;
-            color: var(--text-color);
-        }
-        
-        .reset-btn:hover {
-            background-color: #ddd;
-        }
-        
-        .result-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-        
-        .result-box {
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .result-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .result-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin: 10px 0;
-        }
-        
-        .result-details {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .formula {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 30px;
-            border-left: 4px solid #2ecc71;
-        }
-        
-        .formula h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .formula-text {
-            font-family: monospace;
-            font-size: 1.1rem;
-            background-color: white;
-            padding: 10px;
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-        
-        .explanation {
-            margin-top: 40px;
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-        
-        .explanation h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        .explanation p {
-            margin-bottom: 15px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excel Rechner App</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --bg2:#ffffff;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#dbe3ee;
+      --primary:#2563eb;
+      --primary2:#0ea5e9;
+      --success:#16a34a;
+      --warning:#d97706;
+      --danger:#dc2626;
+      --shadow:0 14px 40px rgba(15, 23, 42, 0.08);
+      --radius:22px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.08), transparent 28%),
+        radial-gradient(circle at top right, rgba(14,165,233,.07), transparent 28%),
+        linear-gradient(180deg, #f8fbff, #eef4fb);
+      color:var(--text);
+      min-height:100vh;
+      padding:18px;
+    }
+
+    .app{
+      max-width:1200px;
+      margin:0 auto;
+    }
+
+    .header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .title-box h1{
+      font-size:clamp(1.5rem, 2.6vw, 2.2rem);
+      margin-bottom:6px;
+      letter-spacing:-0.02em;
+    }
+
+    .title-box p{
+      color:var(--muted);
+      line-height:1.55;
+      max-width:760px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#eff6ff;
+      border:1px solid #dbeafe;
+      color:#1d4ed8;
+      font-weight:600;
+      box-shadow:var(--shadow);
+      white-space:nowrap;
+    }
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .tab-btn{
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      padding:12px 16px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      transition:.2s ease;
+      box-shadow:var(--shadow);
+    }
+
+    .tab-btn:hover{
+      transform:translateY(-1px);
+      border-color:#bfd3ff;
+    }
+
+    .tab-btn.active{
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      color:#fff;
+      border-color:transparent;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .section-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .section-title h2{
+      font-size:1.15rem;
+      letter-spacing:-0.01em;
+    }
+
+    .hint{
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .form-group{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    label{
+      font-size:.95rem;
+      font-weight:600;
+      color:#374151;
+    }
+
+    input{
+      width:100%;
+      padding:13px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#f9fbff;
+      color:var(--text);
+      outline:none;
+      font-size:1rem;
+      transition:.2s ease;
+    }
+
+    input:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 4px rgba(37,99,235,.08);
+      background:#fff;
+    }
+
+    input::placeholder{
+      color:#9ca3af;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:12px 16px;
+      border-radius:14px;
+      font-weight:700;
+      transition:.2s ease;
+      font-size:.98rem;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      color:#fff;
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.02);
+    }
+
+    .btn-secondary{
+      background:#f3f4f6;
+      color:#374151;
+      border:1px solid var(--border);
+    }
+
+    .btn-secondary:hover{
+      background:#eaf0f8;
+    }
+
+    .result-box{
+      min-height:100%;
+      padding:18px;
+      border-radius:18px;
+      background:#f8fbff;
+      border:1px solid #dbe3ee;
+    }
+
+    .result-item{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:13px 0;
+      border-bottom:1px solid #e5ecf5;
+      align-items:center;
+    }
+
+    .result-item:last-child{
+      border-bottom:none;
+    }
+
+    .result-item span{
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    .result-item strong{
+      font-size:1.05rem;
+      color:#111827;
+    }
+
+    .note{
+      margin-top:14px;
+      color:#4b5563;
+      font-size:.93rem;
+      line-height:1.55;
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      padding:12px 14px;
+      border-radius:14px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    /* Sketches */
+    .sketch{
+      margin-bottom:16px;
+      background:linear-gradient(180deg, #fbfdff, #f4f8ff);
+      border:1px solid #e2e8f0;
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .sketch-title{
+      font-size:.95rem;
+      font-weight:700;
+      margin-bottom:10px;
+      color:#1f2937;
+    }
+
+    .sketch svg{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    .svg-line{
+      stroke:#334155;
+      stroke-width:3;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .svg-soft{
+      stroke:#94a3b8;
+      stroke-width:2.2;
+      fill:none;
+    }
+
+    .svg-accent{
+      stroke:#2563eb;
+      stroke-width:3;
+      fill:none;
+    }
+
+    .svg-fill{
+      fill:rgba(37,99,235,.08);
+      stroke:#2563eb;
+      stroke-width:2;
+    }
+
+    .svg-text{
+      fill:#334155;
+      font-size:16px;
+      font-family:Arial, sans-serif;
+      font-weight:600;
+    }
+
+    /* IBG section */
+    .formula{
+      background:#f8fafc;
+      padding:15px;
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+      margin-top:16px;
+      color:#374151;
+    }
+
+    .formula-text{
+      font-family:monospace;
+      background:#fff;
+      border:1px solid #e5e7eb;
+      padding:10px 12px;
+      border-radius:12px;
+      margin:10px 0;
+      font-size:1rem;
+    }
+
+    .explanation{
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      padding:15px;
+      border-radius:14px;
+      line-height:1.6;
+      color:#374151;
+      margin-top:14px;
+    }
+
+    .result-value{
+      font-size:1.4rem;
+      font-weight:800;
+      color:var(--danger);
+    }
+
+    @media (max-width: 920px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .header{
+        align-items:stretch;
+      }
+
+      .badge{
+        width:100%;
+        justify-content:center;
+      }
+    }
+
+    @media (max-width: 560px){
+      body{
+        padding:12px;
+      }
+
+      .card{
+        padding:16px;
+        border-radius:18px;
+      }
+
+      .tab-btn{
+        width:100%;
+        text-align:center;
+      }
+
+      .actions{
+        flex-direction:column;
+      }
+
+      .btn{
+        width:100%;
+      }
+
+      .section-title{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Drehzahlrechner</h1>
-        <p class="subtitle">Berechnen Sie die erforderliche Drehzahl für Mantelfläche und Stirnradius basierend auf der gewünschten Oberflächengeschwindigkeit und Durchmessern</p>
-    </header>
-    
-    <div class="container">
-        <div class="input-section">
-            <h2>Eingabewerte</h2>
-            
-            <div class="input-group">
-                <label for="geschwindigkeit">Oberflächengeschwindigkeit</label>
-                <div class="input-with-unit">
-                    <input type="number" id="geschwindigkeit" placeholder="z.B. 30" min="0.1" step="0.1">
-                    <span class="unit">m/s</span>
-                </div>
-                <p class="info-text">Die gewünschte Geschwindigkeit an der Werkzeug-Oberfläche</p>
-            </div>
-            
-            <div class="input-group">
-                <label for="aussen">Minimaler Außendurchmesser</label>
-                <div class="input-with-unit">
-                    <input type="number" id="aussen" placeholder="z.B. 120" min="0.1" step="0.1">
-                    <span class="unit">mm</span>
-                </div>
-                <p class="info-text">Der kleinste Durchmesser der Mantelfläche</p>
-            </div>
-            
-            <div class="input-group">
-                <label for="spiegel">Spiegeldurchmesser</label>
-                <div class="input-with-unit">
-                    <input type="number" id="spiegel" placeholder="z.B. 60" min="0.1" step="0.1">
-                    <span class="unit">mm</span>
-                </div>
-                <p class="info-text">Durchmesser für die Stirnradius-Berechnung</p>
-            </div>
-            
-            <div class="button-group">
-                <button class="calculate-btn" onclick="berechneDrehzahlen()">Drehzahlen berechnen</button>
-                <button class="reset-btn" onclick="resetForm()">Eingaben zurücksetzen</button>
-            </div>
-        </div>
-        
-        <div class="result-section">
-            <h2>Ergebnisse</h2>
-            
-            <div class="result-box">
-                <div class="result-title">Schnelle Drehzahl Mantelfläche</div>
-                <div class="result-value" id="ergebnis1">–</div>
-                <div class="result-details">Berechnet aus minimalem Außendurchmesser</div>
-            </div>
-            
-            <div class="result-box">
-                <div class="result-title">Schnelle Drehzahl Stirnradius</div>
-                <div class="result-value" id="ergebnis2">–</div>
-                <div class="result-details">Berechnet aus Spiegeldurchmesser</div>
-            </div>
-            
-            <div class="formula">
-                <h3>Berechnungsformel</h3>
-                <p>Die Drehzahl wird berechnet nach:</p>
-                <div class="formula-text">n = (v × 60) / (π × d)</div>
-                <p>wobei:<br>
-                <strong>n</strong> = Drehzahl in U/min<br>
-                <strong>v</strong> = Oberflächengeschwindigkeit in m/s<br>
-                <strong>d</strong> = Durchmesser in Metern</p>
-            </div>
-        </div>
+  <div class="app">
+    <div class="header">
+      <div class="title-box">
+        <h1>Excel Rechner App</h1>
+        <p>
+          Mobilefähige Web-App mit hellem Design, Skizzen und den Funktionen aus Ihrer Excel-Datei:
+          <strong>Kreissegment</strong>, <strong>Umfangsgeschwindigkeit</strong> und <strong>IBG</strong>.
+        </p>
+      </div>
+      <div class="badge">📱 Responsive · Light UI · Browser-basiert</div>
     </div>
-    
-    <div class="explanation">
-        <h2>Erklärung</h2>
-        <p>Dieser Rechner bestimmt die erforderliche Drehzahl für eine gegebene Oberflächengeschwindigkeit (Schnittgeschwindigkeit) an zwei verschiedenen Stellen eines rotierenden Werkzeugs:</p>
-        <p><strong>Mantelfläche:</strong> Die seitliche Fläche des Werkzeugs, berechnet mit dem minimalen Außendurchmesser.</p>
-        <p><strong>Stirnradius:</strong> Die Stirnseite des Werkzeugs, berechnet mit dem Spiegeldurchmesser.</p>
-        <p>Die Oberflächengeschwindigkeit (v) wird in Metern pro Sekunde (m/s) angegeben. Die Durchmesser werden in Millimetern (mm) eingegeben und für die Berechnung in Meter (m) umgerechnet.</p>
-    </div>
-    
-    <footer>
-        <p>Drehzahlrechner für Oberflächengeschwindigkeit | Entwickelt für Präzisionsberechnungen in der Fertigungstechnik</p>
-    </footer>
 
-    <script>
-        function berechneDrehzahlen() {
-            // Werte aus den Eingabefeldern lesen
-            const v = parseFloat(document.getElementById('geschwindigkeit').value);
-            const d1 = parseFloat(document.getElementById('aussen').value);
-            const d2 = parseFloat(document.getElementById('spiegel').value);
-            
-            // Validierung der Eingaben
-            if (isNaN(v) || isNaN(d1) || isNaN(d2) || v <= 0 || d1 <= 0 || d2 <= 0) {
-                document.getElementById('ergebnis1').innerText = "Ungültige Eingabe";
-                document.getElementById('ergebnis2').innerText = "Ungültige Eingabe";
-                
-                // Fehlermeldung anzeigen
-                if (isNaN(v) || v <= 0) {
-                    alert("Bitte geben Sie eine gültige Oberflächengeschwindigkeit (größer als 0) ein.");
-                    document.getElementById('geschwindigkeit').focus();
-                } else if (isNaN(d1) || d1 <= 0) {
-                    alert("Bitte geben Sie einen gültigen minimalen Außendurchmesser (größer als 0) ein.");
-                    document.getElementById('aussen').focus();
-                } else if (isNaN(d2) || d2 <= 0) {
-                    alert("Bitte geben Sie einen gültigen Spiegeldurchmesser (größer als 0) ein.");
-                    document.getElementById('spiegel').focus();
-                }
-                return;
-            }
-            
-            // Durchmesser von mm in m umrechnen
-            const d1_m = d1 / 1000;
-            const d2_m = d2 / 1000;
-            
-            // Drehzahlen berechnen: n = (v * 60) / (π * d)
-            const n1 = Math.round((v * 60) / (Math.PI * d1_m));
-            const n2 = Math.round((v * 60) / (Math.PI * d2_m));
-            
-            // Ergebnisse formatieren und anzeigen
-            document.getElementById('ergebnis1').innerText = `${n1.toLocaleString('de-DE')} U/min`;
-            document.getElementById('ergebnis2').innerText = `${n2.toLocaleString('de-DE')} U/min`;
-            
-            // Hervorhebung der Ergebnisse mit einer Animation
-            highlightResults();
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('segment')">Kreissegment Rechner</button>
+      <button class="tab-btn" onclick="showTab('speed')">Umfangsgeschwindigkeit</button>
+      <button class="tab-btn" onclick="showTab('ibg')">IBG</button>
+    </div>
+
+    <!-- Kreissegment -->
+    <section id="segment" class="grid">
+      <div class="card">
+        <div class="section-title">
+          <h2>Kreissegment Rechner</h2>
+          <span class="hint">Radius / Höhe / Sehne / Winkel</span>
+        </div>
+
+        <div class="sketch">
+          <div class="sketch-title">Skizze: Kreissegment</div>
+          <svg viewBox="0 0 520 250" aria-label="Skizze Kreissegment">
+            <path class="svg-soft" d="M90 185 A170 170 0 0 1 430 185" />
+            <path class="svg-fill" d="M90 185 A170 170 0 0 1 430 185 L430 185 L90 185 Z" />
+            <line class="svg-line" x1="90" y1="185" x2="430" y2="185" />
+            <line class="svg-accent" x1="260" y1="185" x2="260" y2="72" />
+            <line class="svg-soft" x1="260" y1="72" x2="90" y2="185" />
+            <line class="svg-soft" x1="260" y1="72" x2="430" y2="185" />
+            <text class="svg-text" x="250" y="58">r</text>
+            <text class="svg-text" x="266" y="142">h</text>
+            <text class="svg-text" x="243" y="205">s</text>
+            <text class="svg-text" x="250" y="35">θ</text>
+          </svg>
+        </div>
+
+        <div class="form-group">
+          <label for="r">Radius r [mm]</label>
+          <input id="r" type="number" placeholder="z. B. 50" />
+        </div>
+
+        <div class="form-group">
+          <label for="h">Höhe h [mm]</label>
+          <input id="h" type="number" placeholder="z. B. 10" />
+        </div>
+
+        <div class="form-group">
+          <label for="s">Sehne s [mm]</label>
+          <input id="s" type="number" placeholder="z. B. 40" />
+        </div>
+
+        <div class="form-group">
+          <label for="theta">Winkel θ [°]</label>
+          <input id="theta" type="number" placeholder="z. B. 60" />
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="calcSegment()">Berechnen</button>
+          <button class="btn btn-secondary" onclick="clearSegment()">Zurücksetzen</button>
+        </div>
+
+        <div class="note">
+          Für die Berechnung reichen in der Regel zwei passende Werte.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Ergebnis</h2>
+          <span class="hint">Berechnete Werte</span>
+        </div>
+
+        <div class="result-box">
+          <div class="result-item"><span>Radius r</span><strong id="out_r">-</strong></div>
+          <div class="result-item"><span>Höhe h</span><strong id="out_h">-</strong></div>
+          <div class="result-item"><span>Sehne s</span><strong id="out_s">-</strong></div>
+          <div class="result-item"><span>Winkel θ</span><strong id="out_theta">-</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Umfangsgeschwindigkeit -->
+    <section id="speed" class="grid hidden">
+      <div class="card">
+        <div class="section-title">
+          <h2>Umfangsgeschwindigkeit</h2>
+          <span class="hint">Durchmesser / Drehzahl / Geschwindigkeit</span>
+        </div>
+
+        <div class="sketch">
+          <div class="sketch-title">Skizze: rotierender Kreis</div>
+          <svg viewBox="0 0 520 250" aria-label="Skizze Umfangsgeschwindigkeit">
+            <circle cx="260" cy="125" r="78" class="svg-fill"></circle>
+            <circle cx="260" cy="125" r="110" class="svg-soft"></circle>
+            <line x1="260" y1="125" x2="370" y2="125" class="svg-accent"></line>
+            <path d="M330 75 A78 78 0 0 1 370 125" class="svg-line"></path>
+            <path d="M338 80 A92 92 0 0 1 380 125" class="svg-soft"></path>
+            <polygon points="370,125 357,119 359,132" fill="#2563eb"></polygon>
+            <text class="svg-text" x="287" y="117">d</text>
+            <text class="svg-text" x="340" y="95">n</text>
+            <text class="svg-text" x="378" y="131">v</text>
+          </svg>
+        </div>
+
+        <div class="form-group">
+          <label for="diameter">Durchmesser d [mm]</label>
+          <input id="diameter" type="number" placeholder="z. B. 200" />
+        </div>
+
+        <div class="form-group">
+          <label for="rpm">Drehzahl n [1/min]</label>
+          <input id="rpm" type="number" placeholder="z. B. 1500" />
+        </div>
+
+        <div class="form-group">
+          <label for="v">Umfangsgeschwindigkeit v [m/s]</label>
+          <input id="v" type="number" placeholder="z. B. 15.7" />
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="calcSpeed()">Berechnen</button>
+          <button class="btn btn-secondary" onclick="clearSpeed()">Zurücksetzen</button>
+        </div>
+
+        <div class="note">
+          Formel: \( v = \pi \cdot d \cdot n / 60000 \) bei \( d \) in mm und \( n \) in 1/min.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Ergebnis</h2>
+          <span class="hint">Berechnete Werte</span>
+        </div>
+
+        <div class="result-box">
+          <div class="result-item"><span>Durchmesser d</span><strong id="out_d">-</strong></div>
+          <div class="result-item"><span>Drehzahl n</span><strong id="out_n">-</strong></div>
+          <div class="result-item"><span>Umfangsgeschwindigkeit v</span><strong id="out_v">-</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IBG -->
+    <section id="ibg" class="grid hidden">
+      <div class="card">
+        <div class="section-title">
+          <h2>IBG – Drehzahlrechner</h2>
+          <span class="hint">Mantelfläche / Stirnradius</span>
+        </div>
+
+        <div class="sketch">
+          <div class="sketch-title">Skizze: Drehzahlrechner</div>
+          <svg viewBox="0 0 520 250" aria-label="Skizze Drehzahlrechner">
+            <circle cx="160" cy="125" r="78" class="svg-fill"></circle>
+            <circle cx="360" cy="125" r="48" class="svg-fill"></circle>
+
+            <line x1="82" y1="125" x2="238" y2="125" class="svg-accent"></line>
+            <line x1="312" y1="125" x2="408" y2="125" class="svg-accent"></line>
+
+            <path d="M110 70 A78 78 0 0 1 208 70" class="svg-line"></path>
+            <path d="M342 80 A48 48 0 0 1 378 80" class="svg-line"></path>
+
+            <text class="svg-text" x="150" y="118">Mantel</text>
+            <text class="svg-text" x="343" y="118">Stirn</text>
+            <text class="svg-text" x="135" y="210">d1</text>
+            <text class="svg-text" x="345" y="205">d2</text>
+          </svg>
+        </div>
+
+        <div class="form-group">
+          <label for="geschwindigkeit">Oberflächengeschwindigkeit</label>
+          <input type="number" id="geschwindigkeit" placeholder="z. B. 30" min="0.1" step="0.1">
+        </div>
+
+        <div class="form-group">
+          <label for="aussen">Minimaler Außendurchmesser</label>
+          <input type="number" id="aussen" placeholder="z. B. 120" min="0.1" step="0.1">
+        </div>
+
+        <div class="form-group">
+          <label for="spiegel">Spiegeldurchmesser</label>
+          <input type="number" id="spiegel" placeholder="z. B. 60" min="0.1" step="0.1">
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="berechneDrehzahlen()">Drehzahlen berechnen</button>
+          <button class="btn btn-secondary" onclick="resetForm()">Eingaben zurücksetzen</button>
+        </div>
+
+        <div class="formula">
+          <strong>Formel:</strong>
+          <div class="formula-text">n = (v × 60) / (π × d)</div>
+          <div style="font-size:.93rem; color:#4b5563;">
+            \(v\) in m/s, \(d\) in m, Ergebnis in U/min.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>Ergebnisse</h2>
+          <span class="hint">Berechnete Drehzahlen</span>
+        </div>
+
+        <div class="result-box">
+          <div class="result-item">
+            <span>Schnelle Drehzahl Mantelfläche</span>
+            <strong class="result-value" id="ergebnis1">–</strong>
+          </div>
+          <div class="result-item">
+            <span>Schnelle Drehzahl Stirnradius</span>
+            <strong class="result-value" id="ergebnis2">–</strong>
+          </div>
+        </div>
+
+        <div class="explanation">
+          <strong>Erklärung:</strong><br>
+          Der Rechner bestimmt die erforderliche Drehzahl für die gewünschte Oberflächengeschwindigkeit an zwei Bereichen:
+          der Mantelfläche mit dem minimalen Außendurchmesser und der Stirnseite mit dem Spiegeldurchmesser.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function showTab(tab){
+      document.getElementById('segment').classList.add('hidden');
+      document.getElementById('speed').classList.add('hidden');
+      document.getElementById('ibg').classList.add('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+      const tabs = ['segment', 'speed', 'ibg'];
+      const index = tabs.indexOf(tab);
+      if (index >= 0) document.querySelectorAll('.tab-btn')[index].classList.add('active');
+
+      document.getElementById(tab).classList.remove('hidden');
+    }
+
+    function round(v){
+      return (Math.round(v * 1000) / 1000).toFixed(3);
+    }
+
+    // Kreissegment
+    function calcSegment(){
+      let r = parseFloat(document.getElementById('r').value);
+      let h = parseFloat(document.getElementById('h').value);
+      let s = parseFloat(document.getElementById('s').value);
+      let theta = parseFloat(document.getElementById('theta').value);
+
+      const hasR = !isNaN(r), hasH = !isNaN(h), hasS = !isNaN(s), hasT = !isNaN(theta);
+
+      if (hasR && hasH){
+        s = 2 * Math.sqrt(Math.max(0, 2*r*h - h*h));
+        theta = 2 * Math.acos(1 - h/r) * 180 / Math.PI;
+      } else if (hasR && hasS){
+        h = r - Math.sqrt(Math.max(0, r*r - (s/2)*(s/2)));
+        theta = 2 * Math.acos(1 - h/r) * 180 / Math.PI;
+      } else if (hasR && hasT){
+        h = r * (1 - Math.cos((theta/2) * Math.PI / 180));
+        s = 2 * r * Math.sin((theta/2) * Math.PI / 180);
+      } else if (hasH && hasS){
+        r = ((s*s/4) + h*h) / (2*h);
+        theta = 2 * Math.acos(1 - h/r) * 180 / Math.PI;
+      } else {
+        alert("Bitte mindestens zwei passende Werte eingeben, z. B. Radius + Höhe oder Radius + Sehne.");
+        return;
+      }
+
+      document.getElementById('out_r').textContent = round(r) + ' mm';
+      document.getElementById('out_h').textContent = round(h) + ' mm';
+      document.getElementById('out_s').textContent = round(s) + ' mm';
+      document.getElementById('out_theta').textContent = round(theta) + ' °';
+    }
+
+    function clearSegment(){
+      ['r','h','s','theta'].forEach(id => document.getElementById(id).value = '');
+      ['out_r','out_h','out_s','out_theta'].forEach(id => document.getElementById(id).textContent = '-');
+    }
+
+    // Umfangsgeschwindigkeit
+    function calcSpeed(){
+      let d = parseFloat(document.getElementById('diameter').value);
+      let n = parseFloat(document.getElementById('rpm').value);
+      let v = parseFloat(document.getElementById('v').value);
+
+      const hasD = !isNaN(d), hasN = !isNaN(n), hasV = !isNaN(v);
+
+      if (hasD && hasN){
+        v = Math.PI * d * n / 60000;
+      } else if (hasD && hasV){
+        n = v * 60000 / (Math.PI * d);
+      } else if (hasN && hasV){
+        d = v * 60000 / (Math.PI * n);
+      } else {
+        alert("Bitte zwei Werte eingeben, z. B. Durchmesser + Drehzahl.");
+        return;
+      }
+
+      document.getElementById('out_d').textContent = round(d) + ' mm';
+      document.getElementById('out_n').textContent = round(n) + ' 1/min';
+      document.getElementById('out_v').textContent = round(v) + ' m/s';
+    }
+
+    function clearSpeed(){
+      ['diameter','rpm','v'].forEach(id => document.getElementById(id).value = '');
+      ['out_d','out_n','out_v'].forEach(id => document.getElementById(id).textContent = '-');
+    }
+
+    // IBG
+    function berechneDrehzahlen() {
+      const v = parseFloat(document.getElementById('geschwindigkeit').value);
+      const d1 = parseFloat(document.getElementById('aussen').value);
+      const d2 = parseFloat(document.getElementById('spiegel').value);
+
+      if (isNaN(v) || isNaN(d1) || isNaN(d2) || v <= 0 || d1 <= 0 || d2 <= 0) {
+        document.getElementById('ergebnis1').innerText = "Ungültige Eingabe";
+        document.getElementById('ergebnis2').innerText = "Ungültige Eingabe";
+
+        if (isNaN(v) || v <= 0) {
+          alert("Bitte geben Sie eine gültige Oberflächengeschwindigkeit (größer als 0) ein.");
+          document.getElementById('geschwindigkeit').focus();
+        } else if (isNaN(d1) || d1 <= 0) {
+          alert("Bitte geben Sie einen gültigen minimalen Außendurchmesser (größer als 0) ein.");
+          document.getElementById('aussen').focus();
+        } else if (isNaN(d2) || d2 <= 0) {
+          alert("Bitte geben Sie einen gültigen Spiegeldurchmesser (größer als 0) ein.");
+          document.getElementById('spiegel').focus();
         }
-        
-        function resetForm() {
-            // Alle Eingabefelder zurücksetzen
-            document.getElementById('geschwindigkeit').value = '';
-            document.getElementById('aussen').value = '';
-            document.getElementById('spiegel').value = '';
-            
-            // Ergebnisse zurücksetzen
-            document.getElementById('ergebnis1').innerText = '–';
-            document.getElementById('ergebnis2').innerText = '–';
-            
-            // Fokus auf erstes Feld setzen
-            document.getElementById('geschwindigkeit').focus();
-        }
-        
-        function highlightResults() {
-            // Visuelle Hervorhebung der Ergebnisse
-            const results = document.querySelectorAll('.result-value');
-            results.forEach(result => {
-                result.style.transition = 'color 0.5s, transform 0.5s';
-                result.style.color = '#e74c3c';
-                result.style.transform = 'scale(1.05)';
-                
-                // Nach 0.5 Sekunden zurücksetzen
-                setTimeout(() => {
-                    result.style.transform = 'scale(1)';
-                }, 500);
-            });
-        }
-        
-        // Tastatur-Unterstützung: Berechnung mit Enter-Taste
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('keypress', function(event) {
-                    if (event.key === 'Enter') {
-                        berechneDrehzahlen();
-                    }
-                });
-            });
-            
-            // Beispieleingaben für Demo-Zwecke
-            // Diese können entfernt werden, wenn nicht gewünscht
-            document.getElementById('geschwindigkeit').value = '30';
-            document.getElementById('aussen').value = '120';
-            document.getElementById('spiegel').value = '60';
+        return;
+      }
+
+      const d1_m = d1 / 1000;
+      const d2_m = d2 / 1000;
+
+      const n1 = Math.round((v * 60) / (Math.PI * d1_m));
+      const n2 = Math.round((v * 60) / (Math.PI * d2_m));
+
+      document.getElementById('ergebnis1').innerText = `${n1.toLocaleString('de-DE')} U/min`;
+      document.getElementById('ergebnis2').innerText = `${n2.toLocaleString('de-DE')} U/min`;
+      highlightResults();
+    }
+
+    function resetForm() {
+      document.getElementById('geschwindigkeit').value = '';
+      document.getElementById('aussen').value = '';
+      document.getElementById('spiegel').value = '';
+      document.getElementById('ergebnis1').innerText = '–';
+      document.getElementById('ergebnis2').innerText = '–';
+      document.getElementById('geschwindigkeit').focus();
+    }
+
+    function highlightResults() {
+      const results = document.querySelectorAll('.result-value');
+      results.forEach(result => {
+        result.style.transition = 'color 0.5s, transform 0.5s';
+        result.style.color = '#dc2626';
+        result.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          result.style.transform = 'scale(1)';
+        }, 500);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('keypress', function(event) {
+          if (event.key === 'Enter') {
+            const activeTab = document.querySelector('.tab-btn.active')?.textContent || '';
+            if (activeTab.includes('IBG')) berechneDrehzahlen();
+            if (activeTab.includes('Kreissegment')) calcSegment();
+            if (activeTab.includes('Umfangsgeschwindigkeit')) calcSpeed();
+          }
         });
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
