@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZfP-Schulungskalender</title>
+<script>try{var t=localStorage.getItem('zfp-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<header class="hdr">
+  <div class="hdr-left"><div class="hdr-bar"></div><div class="hdr-text"><h1>Schulungskalender</h1><p>Anmeldung zu ZfP-Schulungen</p></div></div>
+  <div class="hdr-right">
+    <span class="user hide" id="userInfo"></span>
+    <button class="btn out sm hide" id="logoutBtn">Abmelden</button>
+    <button class="round" id="themeBtn" title="Hell / Dunkel" aria-label="Hell / Dunkel">🌙</button>
+    <img src="logo.svg" alt="Schaeffler">
+  </div>
+</header>
+<main>
+  <!-- Anmeldung am System -->
+  <section id="loginView" class="login hide">
+    <div class="card">
+      <div class="sec"><span>🔑 Anmelden</span></div>
+      <div class="pad">
+        <label for="lgMail">E-Mail</label><input id="lgMail" type="email" autocomplete="username">
+        <label for="lgPw">Passwort</label><input id="lgPw" type="password" autocomplete="current-password">
+        <div class="row" style="margin-top:1rem">
+          <button class="btn grow" id="lgBtn">Anmelden</button>
+          <button class="btn out grow" id="rgBtn">Konto anlegen</button>
+        </div>
+        <p style="margin:.8rem 0 0"><a href="#" id="pwReset" class="hint">Passwort vergessen?</a></p>
+        <div id="lgMsg" class="msg hide"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kalender -->
+  <section id="appView" class="hide">
+    <div class="toolbar">
+      <button class="btn out sm" id="yPrev">◀</button><span class="year" id="yLabel"></span><button class="btn out sm" id="yNext">▶</button>
+      <select id="fType"><option value="">Alle Schulungsarten</option></select>
+      <select id="fLoc"><option value="">Alle Standorte</option></select>
+      <span class="grow"></span>
+      <button class="btn hide" id="newBtn">➕ Neue Schulung</button>
+    </div>
+    <div class="months" id="months"></div>
+    <div class="panel hide" id="panel"><div class="card" id="panelCard"></div></div>
+  </section>
+</main>
+<footer>© Schaeffler · ZfP-Schulungskalender</footer>
+</div>
+
+<!-- Schulung anlegen / bearbeiten (nur Admin) -->
+<div class="modal" id="trModal"><div class="box">
+  <div class="sec"><span id="trTitle">Neue Schulung</span></div>
+  <div class="pad">
+  <div class="grid2">
+    <div><label>Schulungsart *</label><select id="trType"></select></div>
+    <div><label>Standort *</label><input id="trLoc" placeholder="z. B. Schweinfurt Werk 1"></div>
+    <div><label>Startdatum *</label><input id="trDate" type="date"></div>
+    <div><label>Dauer (Tage) *</label><input id="trDays" type="number" min="1" max="14" value="1"></div>
+    <div><label>Beginn</label><input id="trTime" type="time" value="08:00"></div>
+    <div><label>Raum</label><input id="trRoom"></div>
+    <div><label>Referent/-in</label><input id="trTrainer"></div>
+    <div><label>Qualifikation</label><select id="trQual"><option value="Prüfwerker">Prüfwerker</option><option value="Level 2">Level 2</option><option value="">–</option></select></div>
+    <div><label>Min. Teilnehmer</label><input id="trMin" type="number" min="1" value="2"></div>
+    <div><label>Max. Teilnehmer</label><input id="trMax" type="number" min="1" value="11"></div>
+  </div>
+  <label style="display:flex;gap:.5rem;align-items:center;text-transform:none;font-size:14px"><input id="trReq" type="checkbox" checked> Requalifizierung</label>
+  <div id="trMsg" class="msg err hide"></div>
+  <div class="row" style="margin-top:1rem;justify-content:flex-end">
+    <button class="btn out" id="trCancel">Abbrechen</button><button class="btn" id="trSave">Speichern</button>
+  </div>
+  </div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
