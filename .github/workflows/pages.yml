@@ -1,0 +1,41 @@
+# Veröffentlicht den Ordner web/ automatisch auf GitHub Pages (bei jedem Push auf main).
+# Optional: Supabase-Zugangsdaten als Repository-Variablen hinterlegen, dann muss config.js nicht bearbeitet werden:
+#   Settings → Secrets and variables → Actions → Variables → SUPABASE_URL, SUPABASE_ANON_KEY (optional ERLAUBTE_MAIL_DOMAIN)
+name: Seite veröffentlichen
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: config.js aus Repository-Variablen erzeugen (falls gesetzt)
+        env:
+          SB_URL: ${{ vars.SUPABASE_URL }}
+          SB_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SB_DOM: ${{ vars.ERLAUBTE_MAIL_DOMAIN }}
+        run: |
+          if [ -n "$SB_URL" ] && [ -n "$SB_KEY" ]; then
+            printf "window.ZFP_CONFIG = { SUPABASE_URL: '%s', SUPABASE_ANON_KEY: '%s', ERLAUBTE_MAIL_DOMAIN: '%s' };\n" "$SB_URL" "$SB_KEY" "$SB_DOM" > web/config.js
+            echo "config.js aus Variablen erzeugt"
+          else
+            echo "Keine Variablen gesetzt – verwende web/config.js aus dem Repository"
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: deployment
+        uses: actions/deploy-pages@v4
