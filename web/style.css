@@ -66,3 +66,4 @@ td{padding:8px;border-bottom:1px solid var(--bdr);vertical-align:middle}tr:hover
 footer{text-align:center;color:var(--sa3);font-size:12px;padding:14px}
 @media(max-width:600px){.app{padding:6px}.hdr-right img{display:none}}
 @media print{.toolbar,.months,.noprint,.btn,.hdr-right,footer{display:none!important}body{background:#fff}.card{border:0}}
+a.btn{text-decoration:none}
