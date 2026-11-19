@@ -1,8 +1,4 @@
-# ZfP-Schulungskalender + Operator-Audit / Qualimatrix (GitHub Pages + Supabase)
-
-Das Repository enthält zwei Apps im selben Supabase-Projekt und mit demselben Login:
-- **Schulungskalender** – `web/` → `https://acendrion1984.github.io/drehzahl/`
-- **Operator-Audit mit Qualifikationsmatrix** – `web/operator/` → `https://acendrion1984.github.io/drehzahl/operator/` (Abschnitt *Operator-Audit / Qualimatrix* unten)
+# ZfP-Schulungskalender (GitHub Pages + Supabase)
 
 Eigenständiger Schulungskalender mit Anmeldung – **ohne** Namens-/Mitarbeiterdatenbank, Prüfungssystem und Simulatoren.
 
@@ -59,30 +55,3 @@ Eigenständiger Schulungskalender mit Anmeldung – **ohne** Namens-/Mitarbeiter
 - **Schulungsarten ändern:** in `web/app.js` die Liste `TYPES` (und ggf. `MIN_DEFAULT`).
 - **Kostenlos?** Supabase Free und GitHub Pages reichen für diese Nutzung. Hinweis: Supabase pausiert Free-Projekte nach längerer Inaktivität.
 - **Lokaler Test:** `cd web && python3 -m http.server 8080` → <http://localhost:8080>
-
-## Operator-Audit / Qualimatrix (`web/operator/`)
-
-Operator-App (Operator-Audit, Qualifikationsmatrix, Mitarbeiterliste, Autorisierung als PDF, Audit-Bericht, Zertifikat-Historie, Archiv). Die App ist unverändert; `web/operator/supabase-adapter.js` ersetzt die Aufrufe des früheren Node-Servers durch Supabase. Self-Audit und Review sind nicht enthalten.
-
-**Einrichtung:** nach `supabase/schema.sql` zusätzlich `supabase/schema_operator.sql` im SQL Editor ausführen (bereits erledigt). `web/operator/config.js` enthält dasselbe Projekt wie `web/config.js`. Der Pages-Workflow veröffentlicht den Unterordner automatisch mit.
-
-**Zugriff:** Weil sich im Kalender jeder registrieren kann, sehen die Qualimatrix-Daten (Tabellen `kv`, `audits`, Bucket `zfp-pdfs`) nur Admins und Nutzer mit dem Recht `operator_zugang`. Weitere Rechte (Admin hat alle):
-
-| Recht | Wirkung |
-|---|---|
-| `operator_zugang` | Qualimatrix-Daten lesen und bearbeiten (Grundrecht) |
-| `operator_archiv` | Archiv der Qualimatrix öffnen |
-| `operator_personaldaten` | Personaldaten (Geburtsdatum usw.) freischalten |
-| `operator_audit_loeschen` | Audits löschen / nachträglich signieren (von der Datenbank erzwungen) |
-| `operator_autorisierung_loeschen` | gespeicherte Autorisierungen löschen |
-| `operator_mitarbeiter_loeschen` | Mitarbeiter löschen |
-| `operator_zertifikate_verlaengern` | Zertifikate verlängern |
-
-```sql
-update public.profiles set rechte = array['operator_zugang','operator_archiv'],
-  abteilungen = array['Abteilung A'] where email = 'name@firma.de';
-```
-
-**Daten:** JSON-Dokumente (Werke, Mitarbeiter, Fragenkataloge, Listen) → Tabelle `kv` (`name` = Dateiname, `data` = Inhalt); abgeschlossene Audits → `audits`; PDFs → privater Bucket `zfp-pdfs`. Zertifikat-PDFs lassen sich in der Qualimatrix über die Import-Funktion einlesen.
-
-**Unterschiede zur Node-Version:** gleichzeitiges Bearbeiten → „letzter Stand gewinnt“ (leere Stände überschreiben keine Daten); Ausblendung von Personaldaten nach Abteilung nur in der Oberfläche (alle mit `operator_zugang` können die Daten technisch lesen); Datum früherer Zertifikatsfassungen = Upload-Datum; nicht enthalten: Nutzerverwaltung (→ Supabase-Dashboard), Audit-Log, OMS-Abfrage, automatische Datensicherung. Supabase Free: 1 GB Storage.
