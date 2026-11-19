@@ -1,0 +1,270 @@
+/* ZfP-Portal · Einheitliches Design (Vorbild: Ätzdatenbank)
+ * Farben, Schrift, Kopfbereich, Menü-Knöpfe (.nav-btn), Karten, Tabellen und Knöpfe.
+ * Von der Dokumenten-Bibliothek direkt verwendet; die übrigen Apps laden die Datei zusätzlich und
+ * ordnen ihre eigenen Klassen darauf ab (siehe jeweils <style id="zd-…"> in der App).
+ * Nicht verwendet in den Simulationen. */
+@import url('../vendor/fonts/fonts.css');   /* lokal – kein Warten auf Google Fonts (offline/Firmennetz) */
+
+:root, html[data-theme="light"] {
+  --sg:#00893d; --sg2:#006b30; --sg3:#e8f5ee; --sa:#1a1a1a; --sa2:#333; --sa3:#555;
+  --gbg:#e8e8e8; --gmid:#bbb; --bdr:#d0d0d0; --wh:#fff;
+  --ok-bg:#d6f0dc; --ok-b:#00893d; --ok-t:#005a28;
+  --wn-bg:#fff3cd; --wn-b:#d48f00; --wn-t:#7a5200;
+  --er-bg:#fde8e8; --er-b:#c0392b; --er-t:#7b241c;
+  --body-bg:#e0e0e0; --card:#fff; --meta:#f0f0f0; --f9:#f9f9f9; --sec:#1a1a1a;
+  --btn-sec:#444; --btn-sec-h:#222; --modal-overlay:rgba(0,0,0,.7);
+  --zd-font:'Barlow',Arial,sans-serif; --zd-cond:'Barlow Condensed',sans-serif;
+}
+html[data-theme="dark"] {
+  --sg:#00a84a; --sg2:#00c957; --sg3:#0a2e17; --sa:#e0e0e0; --sa2:#c0c0c0; --sa3:#999;
+  --gbg:#2a2a2a; --gmid:#555; --bdr:#444; --wh:#1e1e1e;
+  --ok-bg:#0d2e1a; --ok-b:#00893d; --ok-t:#4cde8a;
+  --wn-bg:#2a1f00; --wn-b:#d48f00; --wn-t:#f0b429;
+  --er-bg:#2e0d0d; --er-b:#c0392b; --er-t:#f08080;
+  --body-bg:#121212; --card:#1e1e1e; --meta:#2a2a2a; --f9:#222; --sec:#0d0d0d;
+  --btn-sec:#3a3a3a; --btn-sec-h:#555; --modal-overlay:rgba(0,0,0,.85);
+}
+
+/* ── Gerüst ── */
+.zd-body *{box-sizing:border-box}
+.zd-body{margin:0;font-family:var(--zd-font);background:var(--body-bg);color:var(--sa);min-height:100vh;transition:background .3s,color .3s}
+.zd-app{width:100%;max-width:none;margin:0 auto;padding:12px 16px}
+
+/* ── Kopfbereich ── */
+.zd-hdr{display:flex;align-items:stretch;justify-content:space-between;background:var(--card);border:1.5px solid var(--bdr);border-bottom:3px solid var(--sg);overflow:hidden}
+.zd-hdr-left{display:flex;align-items:center}
+.zd-hdr-bar{width:6px;align-self:stretch;background:var(--sg);flex-shrink:0}
+.zd-hdr-text{padding:12px 16px}
+.zd-hdr-text h1{margin:0;font-family:var(--zd-cond);font-size:clamp(26px,4vw,36px);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.zd-hdr-text p{margin:2px 0 0;font-size:14px;color:var(--sa3);font-style:normal}
+.zd-hdr-right{display:flex;align-items:center;gap:10px;padding:0 14px;flex-wrap:wrap;justify-content:flex-end}
+.zd-hdr-right img{height:32px;width:auto}
+.zd-round{width:38px;height:38px;border-radius:50%;background:var(--card);border:2px solid var(--bdr);color:var(--sa);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1;padding:0}
+.zd-round:hover{border-color:var(--sg);transform:translateY(-2px)}
+
+/* ── Menü-Knöpfe ── */
+.zd-nav{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap;align-items:center}
+.zd-nav-btn{background:var(--wh);border:2px solid var(--sg);color:var(--sg);font-family:var(--zd-cond);font-weight:700;font-size:15px;text-transform:none;padding:9px 16px;border-radius:4px;cursor:pointer;transition:all .15s;text-decoration:none;display:inline-block;letter-spacing:.2px}
+.zd-nav-btn:hover{background:var(--sg3)}
+.zd-nav-btn.active{background:var(--sg);color:#fff}
+
+/* ── Karten, Abschnittsleisten, Kennzahlen ── */
+.zd-card{background:var(--card);border:1.5px solid var(--bdr);border-top:none;margin-bottom:15px}
+.zd-sec{background:var(--sec);color:#fff;font-family:var(--zd-cond);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-left:4px solid var(--sg);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.zd-hint{font-weight:500;font-size:11.5px;letter-spacing:.3px;text-transform:none;opacity:.8;margin-left:auto}
+.zd-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:16px}
+.zd-kpi{background:var(--card);border:1px solid var(--bdr);border-top:4px solid var(--sg);border-radius:12px;padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.zd-kpi .v{font-size:34px;line-height:1.1;font-weight:700;color:var(--sg);font-family:var(--zd-cond)}
+.zd-kpi .l{font-size:11.5px;color:var(--sa3);margin-top:4px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.zd-kpi.wn{border-top-color:var(--wn-b);background:var(--wn-bg)}.zd-kpi.wn .v{color:var(--wn-t)}
+
+/* ── Formularfelder und Knöpfe ── */
+.zd-body input[type=text],.zd-body input[type=search],.zd-body select{background:var(--gbg);border:1.5px solid var(--gmid);border-radius:4px;padding:8px 10px;font-size:15px;font-family:inherit;color:var(--sa);width:100%}
+.zd-body input:focus,.zd-body select:focus{outline:none;border-color:var(--sg);background:var(--sg3)}
+.zd-btn{border:none;cursor:pointer;font-family:var(--zd-cond);font-weight:700;text-transform:none;letter-spacing:1px;padding:11px 22px;font-size:15px;border-radius:4px;transition:background .15s;text-decoration:none;display:inline-block}
+.zd-btn.pri{background:var(--sg);color:#fff}.zd-btn.pri:hover{background:var(--sg2)}
+.zd-btn.sec{background:var(--btn-sec);color:#fff;font-size:14px}.zd-btn.sec:hover{background:var(--btn-sec-h)}
+.zd-btn.dng{background:var(--er-bg);color:var(--er-t);border:1.5px solid var(--er-b);font-size:13px;padding:5px 10px}
+.zd-btn.sm{padding:5px 10px;font-size:13px;letter-spacing:.5px}
+.zd-btn:disabled{opacity:.45;cursor:not-allowed}
+.zd-badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:700;white-space:nowrap}
+.zd-badge.ok{background:var(--ok-bg);color:var(--ok-t);border:1px solid var(--ok-b)}
+.zd-badge.wn{background:var(--wn-bg);color:var(--wn-t);border:1px solid var(--wn-b)}
+.zd-badge.er{background:var(--er-bg);color:var(--er-t);border:1px solid var(--er-b)}
+.zd-badge.nu{background:var(--gbg);color:var(--sa3);border:1px solid var(--gmid)}
+
+/* ── Tabellen ── */
+.zd-tbl-wrap{overflow-x:auto}
+.zd-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.zd-tbl th{background:var(--sg3);color:var(--sg2);padding:9px 8px;text-align:left;border-bottom:2px solid var(--sg);white-space:nowrap}
+.zd-tbl td{padding:8px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.zd-tbl tr:hover td{background:var(--gbg)}
+
+/* ── Hinweis, Meldung, Fenster ── */
+.zd-empty{padding:22px;text-align:center;color:var(--sa3);font-style:italic}
+.zd-modal{display:none;position:fixed;inset:0;background:var(--modal-overlay);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.zd-modal.show{display:flex}
+.zd-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--sg);color:#fff;padding:10px 20px;border-radius:6px;font-weight:600;display:none;z-index:2000;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.zd-toast.er{background:var(--er-b)}
+@media(max-width:600px){.zd-app{padding:6px}.zd-nav-btn{padding:8px 11px;font-size:14px}.zd-hdr-right img{display:none}}
+@media print{.zd-nav,.zd-hdr-right,.zd-noprint{display:none!important}.zd-body{background:#fff}}
+
+/* ═════════════════════════════════════════════════════════════════════════════
+ * Anwendungsfamilie: Apps mit .site-header / --bg --surface --border … (Gefüge, Flexitest, IBG, Eddyrobot,
+ * Review, Operator, Self-Audit, NDSuite, Schulungen …). Aktiv nur mit <html data-zd>.
+ * ═════════════════════════════════════════════════════════════════════════════ */
+html[data-zd], html[data-zd][data-theme="light"], html[data-zd][data-theme="light"] body, html[data-zd] body.light-mode {
+  --bg:#e0e0e0; --surface:#fff; --surface-2:#f0f0f0; --surface-3:#e8e8e8; --border:#d0d0d0; --text:#1a1a1a; --muted:#555;
+  --accent:#00893d; --accent-bg:rgba(0,137,61,.1); --radius:4px; --shadow:none; --shadow-hover:0 2px 8px rgba(0,0,0,.18);
+  --bg-primary:#e0e0e0; --bg-secondary:#fff; --bg-tertiary:#f0f0f0; --border-color:#d0d0d0; --text-primary:#1a1a1a; --text-secondary:#555;
+  --input-bg:#e8e8e8; --input-border:#bbb;
+  --surface2:#f0f0f0; --surface3:#e8e8e8; --border2:#bbb; --accent2:#006b30; --accent3:#00893d; --accent-dim:rgba(0,137,61,.1); --accent-glow:rgba(0,137,61,.15);
+  --text2:#333; --text3:#555; --text-muted:#777;
+}
+html[data-zd][data-theme="dark"], html[data-zd][data-theme="dark"] body {
+  --bg:#121212; --surface:#1e1e1e; --surface-2:#2a2a2a; --surface-3:#333; --border:#444; --text:#e0e0e0; --muted:#999;
+  --accent:#00a84a; --accent-bg:rgba(0,168,74,.15);
+  --bg-primary:#121212; --bg-secondary:#1e1e1e; --bg-tertiary:#2a2a2a; --border-color:#444; --text-primary:#e0e0e0; --text-secondary:#999;
+  --input-bg:#2a2a2a; --input-border:#555;
+  --surface2:#2a2a2a; --surface3:#333; --border2:#555; --accent2:#2fc16b; --accent3:#00a84a; --accent-dim:rgba(0,168,74,.15); --accent-glow:rgba(0,168,74,.2);
+  --text2:#c8c8c8; --text3:#999; --text-muted:#888;
+}
+html[data-zd] body{font-family:var(--zd-font);background:var(--bg);color:var(--text)}
+html[data-zd] body *:not(svg):not(svg *):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono){font-family:var(--zd-font)!important}
+html[data-zd] h1,html[data-zd] h2,html[data-zd] h3,html[data-zd] h4,html[data-zd] .btn,html[data-zd] button:not(.zfp-lang-btn):not(.theme-toggle-btn):not(.round-btn):not(.lang-toggle-btn){font-family:var(--zd-cond)!important}
+
+/* Kopfbereich wie in der Ätzdatenbank */
+html[data-zd] .site-header{position:static!important;margin:12px 16px 0!important;width:auto!important;max-width:none!important;padding:0 14px 0 0!important;display:flex;align-items:stretch;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--surface)!important;border:1.5px solid var(--border)!important;border-left:6px solid var(--sg)!important;border-bottom:3px solid var(--sg)!important;box-shadow:none!important;color:var(--text)}
+html[data-zd] .site-header-left{padding:12px 16px!important;gap:0!important;justify-content:center}
+html[data-zd] .site-header-eyebrow{display:none!important}
+html[data-zd] .site-header-title{font-family:var(--zd-cond)!important;font-size:clamp(16px,3.5vw,22px)!important;font-weight:700!important;text-transform:uppercase;letter-spacing:.5px!important;line-height:1.2!important;color:var(--text)!important;background:none!important;-webkit-text-fill-color:currentColor!important}
+html[data-zd] .site-header-sub{font-size:12px!important;color:var(--muted)!important;font-style:italic;margin-top:2px!important}
+/* Kopfzeile in ALLEN Apps einheitlich (außer MT-Protokoll): wie auf der Portal-Startseite: Titel Barlow Condensed 700/Großbuchstaben bis 36px, Untertitel Barlow 14px normal.
+   Erhöhte Spezifität, damit die allgemeine Schriftregel (html[data-zd] body *) den Titel nicht auf Barlow zurücksetzt. */
+html[data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd] body :is(.site-header-title,.header-title){font-family:var(--zd-cond)!important;font-size:clamp(26px,4vw,36px)!important;font-weight:700!important;text-transform:uppercase!important;letter-spacing:.5px!important;line-height:1.2!important;font-style:normal!important}
+html[data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd] body :is(.site-header-sub,.header-sub){font-family:var(--zd-font)!important;font-size:14px!important;font-weight:400!important;font-style:normal!important;letter-spacing:normal!important;margin-top:2px!important}
+@media(max-width:768px){html[data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd] body :is(.site-header-title,.header-title){font-size:clamp(13px,4vw,17px)!important}html[data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd] body :is(.site-header-sub,.header-sub){font-size:11px!important;margin-top:1px!important}}
+/* Höhe der Kopfzeile wie auf der Portal-Startseite (125px); MT-Protokoll ausgenommen */
+@media(min-width:769px){html[data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd][data-zd] body :is(.site-header,.zd-hdr){min-height:125px!important;align-items:stretch}html[data-zd] body .header{min-height:125px!important}.zd-hdr{min-height:125px}}
+html[data-zd] .site-header-right{gap:10px!important;align-items:center}
+html[data-zd] .site-header-right .schaeffler-logo,html[data-zd] .site-header-right img{height:32px!important;width:auto}
+html[data-zd] .theme-toggle-btn,html[data-zd] .lang-toggle-btn,html[data-zd] #langToggleBtn,html[data-zd] #zfpLangBtn{width:38px!important;height:38px!important;border-radius:50%!important;background:var(--surface)!important;border:2px solid var(--border)!important;color:var(--text)!important;font-size:17px;box-shadow:none!important}
+html[data-zd] .theme-toggle-btn:hover,html[data-zd] .lang-toggle-btn:hover,html[data-zd] #langToggleBtn:hover{border-color:var(--sg)!important;transform:translateY(-2px)!important}
+html[data-zd] .hdr-chip{border-right-color:var(--border)}
+@media(max-width:768px){html[data-zd] .site-header{margin:6px!important;flex-direction:row!important;align-items:center!important}html[data-zd] .site-header-left{padding:8px 10px!important}html[data-zd] .site-header-right{width:auto!important}html[data-zd] .site-header-right img,html[data-zd] .schaeffler-logo-wrap,html[data-zd] .site-header-right .schaeffler-logo{display:none!important}html[data-zd] .site-header-right{justify-content:flex-end!important;width:auto!important}}
+
+/* Seitenbreite: volle Breite */
+html[data-zd] main,html[data-zd] .shell,html[data-zd] .main-content,html[data-zd] .container{max-width:none!important}
+html[data-zd] main{padding:12px 16px 30px}
+html[data-zd] .shell{padding:0 16px}
+
+/* Menü-/Reiter-Knöpfe wie .nav-btn */
+html[data-zd] .tabs,html[data-zd] .main-tabs{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0}
+html[data-zd] .tab-btn,html[data-zd] .tabs>.tab,html[data-zd] .main-tab{flex:0 0 auto!important;min-width:0!important;background:var(--surface)!important;border:2px solid var(--sg)!important;color:var(--sg)!important;font-family:var(--zd-cond)!important;font-weight:700!important;font-size:15px!important;text-transform:none;letter-spacing:.2px;padding:9px 16px!important;border-radius:4px!important;box-shadow:none!important;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:all .15s}
+html[data-zd] .tab-btn:hover,html[data-zd] .tabs>.tab:hover,html[data-zd] .main-tab:hover{background:var(--sg3)!important;transform:none!important}
+html[data-zd] .tab-btn.active,html[data-zd] .tabs>.tab.active,html[data-zd] .main-tab.active{background:var(--sg)!important;color:#fff!important;border-color:var(--sg)!important}
+html[data-zd] .tabs>.tab.active{box-shadow:none!important;border-bottom-color:var(--sg)!important}
+
+/* Karten mit dunkler Abschnittsleiste */
+html[data-zd] .card{background:var(--surface);border:1.5px solid var(--border);border-radius:4px;box-shadow:none}
+html[data-zd] .card h2{font-family:var(--zd-cond)!important;text-transform:uppercase}
+
+/* Knöpfe */
+html[data-zd] .btn{font-family:var(--zd-cond)!important;font-weight:700;text-transform:none;letter-spacing:.8px;border-radius:4px!important;font-size:14.5px!important;transform:none!important;box-shadow:none}
+html[data-zd] .btn.small{font-size:13px!important}
+html[data-zd] .btn:not(.ghost):not(.danger){background:var(--sg);color:#fff}
+html[data-zd] .btn:not(.ghost):not(.danger):hover{background:var(--sg2)}
+html[data-zd] .btn.ghost{background:var(--surface);color:var(--sg);border:2px solid var(--sg)}
+html[data-zd] .btn.ghost:hover{background:var(--sg3);color:var(--sg)}
+html[data-zd] .btn.danger{background:var(--er-bg);color:var(--er-t);border:1.5px solid var(--er-b)}
+html[data-zd] .btn.danger:hover{background:var(--er-b);color:#fff}
+
+/* Formularfelder */
+html[data-zd] input[type=text],html[data-zd] input[type=search],html[data-zd] input[type=number],html[data-zd] input[type=date],html[data-zd] input[type=datetime-local],html[data-zd] input[type=password],html[data-zd] input[type=email],html[data-zd] select,html[data-zd] textarea{background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:4px!important;color:var(--text)}
+html[data-zd] input:focus,html[data-zd] select:focus,html[data-zd] textarea:focus{outline:none;border-color:var(--sg)!important;background:var(--sg3)}
+html[data-theme="dark"][data-zd] input:focus,html[data-theme="dark"][data-zd] select:focus,html[data-theme="dark"][data-zd] textarea:focus{background:var(--sg3)}
+
+/* Tabellen */
+html[data-zd] table th{background:var(--sg3)!important;color:var(--sg2)!important;border-bottom:2px solid var(--sg)!important}
+html[data-theme="dark"][data-zd] table th{color:var(--sg2)!important}
+
+/* Hinweisfenster */
+html[data-zd] .toast{background:var(--sg);color:#fff;border-radius:6px}
+html[data-zd] .toast.err{background:var(--er-b)}
+
+/* Audit-Kacheln (Review, Operator, Self-Audit): weiße Ätz-Karte mit grünem Kopfstreifen statt farbigem Verlauf */
+html[data-zd] .audit-btn{background:var(--surface)!important;color:var(--text)!important;border:1.5px solid var(--border)!important;border-top:4px solid var(--sg)!important;border-radius:4px!important;box-shadow:none!important;min-height:130px!important;padding:16px 18px 14px!important;filter:none!important;isolation:auto;transition:background .15s,border-color .15s!important}
+html[data-zd] body .audit-btn{border:1.5px solid var(--border)!important;border-top:4px solid var(--sg)!important}
+html[data-zd] .audit-btn::before,html[data-zd] .audit-btn::after{display:none!important}
+html[data-zd] .audit-btn:hover,html[data-zd] .audit-buttons .audit-btn.glass:hover{background:var(--sg3)!important;border-color:var(--sg)!important;border-top-color:var(--sg)!important;transform:none!important;box-shadow:0 2px 8px rgba(0,0,0,.15)!important}
+html[data-zd] .audit-btn:active{transform:none!important}
+html[data-zd] .audit-btn .btn-icon{color:var(--sg)!important;text-shadow:none!important;font-size:24px}
+html[data-zd] .audit-btn span{color:var(--text)!important;text-shadow:none!important;font-family:var(--zd-cond)!important;font-size:20px!important;font-weight:700!important;text-transform:none;letter-spacing:.3px!important}
+html[data-zd] .audit-btn [style*="DM Mono"]{color:var(--muted)!important;font-family:var(--zd-font)!important;font-size:12px!important;letter-spacing:.8px!important}
+html[data-zd] .audit-btn .btn-progress{background:var(--sg3)!important;color:var(--sg2)!important;border:1px solid var(--sg)!important;text-shadow:none!important;font-family:var(--zd-cond)!important;font-weight:700;font-size:13px!important;border-radius:12px}
+html[data-zd] .audit-btn .tile-arrow-badge,html[data-zd] .audit-btn .tile-arrow-btn{background:var(--sg)!important;color:#fff!important}
+html[data-zd] .audit-btn .tile-body-wrap,html[data-zd] .audit-btn>div[style*="z-index:1"]{padding-right:38px}
+html[data-zd] .audit-btn .tile-icon-wrap{color:var(--sg)!important}
+html[data-zd] .audit-btn .tile-cat{color:var(--muted)!important;font-family:var(--zd-font)!important;font-size:12px!important;letter-spacing:.8px!important}
+html[data-zd] .audit-btn .tile-nm{color:var(--text)!important;font-family:var(--zd-cond)!important;font-size:20px!important;font-weight:700!important;text-transform:none;letter-spacing:.3px!important}
+html[data-zd] .audit-btn .tile-progress{background:var(--sg3)!important;color:var(--sg2)!important;border:1px solid var(--sg)!important;font-family:var(--zd-cond)!important;font-weight:700;font-size:13px!important}
+html[data-zd] .audit-selection h2,html[data-zd] .section-label{font-family:var(--zd-cond)!important;text-transform:uppercase;letter-spacing:1.5px;color:var(--sa2)}
+
+/* Knopffarben der Audit-Apps: grün = Hauptaktion, dunkelgrau = Zurück/Import/Drucken/Bericht, rot = Löschen */
+html[data-zd] :is(.btn-cloud,.btn-back,.btn-export,.btn-report,.btn-danger,.btn-success,.btn-secondary,.btn-info,.btn-import,.btn-import-m,.btn-github,.btn-github-save,.btn-cancel,.btn-authorization,.btn-load-audit,.btn-delete-audit,.planung-btn,.planung-btn-export,.planung-btn-config,.planung-btn-clear,.planung-btn-auto,.filter-btn,.refresh-btn,.toggle-header-btn,.mark-reviewed-btn,.sign-audit-btn,.load-audit-btn,.employee-list-btn,.custom-modal-btn,.print-btn,.action-btn,.audit-action-btn,.employee-action-btn,.report-action-btn){font-family:var(--zd-cond)!important;font-weight:700!important;text-transform:none;letter-spacing:.6px;border-radius:4px!important;box-shadow:none!important;filter:none!important;transform:none!important;text-shadow:none!important}
+html[data-zd] :is(.btn-back,.btn-report,.btn-secondary,.btn-info,.btn-github,.btn-cancel,.btn-authorization,.btn-load-audit,.planung-btn,.planung-btn-config,.planung-btn-clear,.planung-btn-auto,.filter-btn,.toggle-header-btn,.employee-list-btn,.load-audit-btn,.action-btn.view,.action-btn.open,.action-btn.image,.action-btn.pdf,.employee-action-btn,.report-action-btn,.report-action-btn.cloud-btn,.mark-reviewed-btn){background:var(--btn-sec)!important;color:#fff!important;border:none!important}
+html[data-zd] :is(.btn-export,.btn-success,.btn-import,.btn-import-m,.btn-github-save,.btn-cloud,.planung-btn-export,.sign-audit-btn,.action-btn.complete,.report-action-btn.print-btn,.print-btn,.custom-modal-btn.confirm,.refresh-btn){background:var(--sg)!important;color:#fff!important;border:none!important}
+html[data-zd] :is(.btn-danger,.btn-delete-audit,.action-btn.delete,.report-action-btn.close-btn,.custom-modal-btn.cancel){background:var(--er-bg)!important;color:var(--er-t)!important;border:1.5px solid var(--er-b)!important}
+html[data-zd] :is(.btn-back,.btn-report,.btn-secondary,.btn-info,.btn-github,.btn-cancel,.btn-authorization,.btn-load-audit,.planung-btn,.filter-btn,.action-btn.view,.action-btn.open,.employee-action-btn,.report-action-btn):hover{background:var(--btn-sec-h)!important}
+html[data-zd] :is(.btn-export,.btn-success,.btn-import,.btn-import-m,.btn-github-save,.planung-btn-export,.print-btn,.custom-modal-btn.confirm):hover{background:var(--sg2)!important}
+html[data-zd] :is(.btn-danger,.btn-delete-audit,.action-btn.delete,.report-action-btn.close-btn,.custom-modal-btn.cancel):hover{background:var(--er-b)!important;color:#fff!important}
+html[data-zd] .chip-filter.active,html[data-zd] .filter-btn.active{background:var(--sg)!important;border-color:var(--sg)!important;color:#fff!important}
+
+/* Aufklappbare Abschnitte (Operator, Review) wie die Abschnittsleisten der Ätzdatenbank */
+html[data-zd] .section-header{background:var(--sec)!important;color:#fff!important;border-left:4px solid var(--sg);padding:8px 14px;border-radius:0!important}
+html[data-zd] .section-header:hover{background:var(--btn-sec-h)!important}
+html[data-zd] .section-header h2{font-family:var(--zd-cond)!important;font-size:14px!important;font-weight:700!important;letter-spacing:1.2px;text-transform:uppercase;color:#fff!important}
+html[data-zd] .section{border-radius:0!important;box-shadow:none!important}
+
+/* Mobil: Audit-Kacheln kompakt (Icon links, Text rechts) */
+@media(max-width:640px){
+  html[data-zd] body .audit-btn{display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px!important;min-height:0!important;padding:12px 52px 12px 14px!important;text-align:left}
+  html[data-zd] .audit-btn .tile-icon-wrap{flex:0 0 40px;width:40px!important;height:40px!important;margin:0!important;font-size:22px;display:flex;align-items:center;justify-content:center}
+  html[data-zd] .audit-btn .tile-body-wrap{flex:1;min-width:0}
+  html[data-zd] .audit-btn .tile-nm{font-size:16px!important;line-height:1.2;margin:0!important;overflow-wrap:normal;hyphens:manual}
+  html[data-zd] .audit-btn .tile-cat{font-size:11px!important;margin:0 0 2px!important}
+  html[data-zd] .audit-btn .tile-progress{margin-top:4px!important}
+  html[data-zd] .audit-btn .tile-arrow-btn,html[data-zd] .audit-btn .tile-arrow-badge{position:absolute!important;right:12px!important;top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;width:30px!important;height:30px!important}
+  html[data-zd] body .audit-buttons{grid-template-columns:1fr!important;gap:10px!important}
+  html[data-zd] #schaefflerLogo{display:none!important}
+  html[data-zd] .audit-btn .btn-icon{flex:0 0 36px;position:static!important;margin:0!important;font-size:22px!important;text-align:center}
+  html[data-zd] .audit-btn>div[style*="relative"]{flex:1;min-width:0}
+  html[data-zd] .audit-btn span{font-size:14.5px!important;letter-spacing:0!important;line-height:1.2;display:block;overflow-wrap:normal;hyphens:manual}
+  html[data-zd] .audit-btn .btn-progress{position:static!important;margin:0!important;flex:0 0 auto}
+}
+
+/* Restliche bunte Buttons → Ätz-Schema (grau = Hilfsaktion, grün = Hauptaktion) */
+html[data-zd] #importCertPdfBtn,html[data-zd] #bulkRenewBtn,html[data-zd] #cardIdManagerBtn,html[data-zd] #backfillFromSchulungBtn,html[data-zd] .btn-xml,html[data-zd] #colsAllOnBtn,html[data-zd] .colsAllBtn{background:var(--surface)!important;border:2px solid var(--sg)!important;color:var(--text)!important;box-shadow:none!important;background-image:none!important;border-radius:4px!important;font-family:var(--zd-cond)!important;text-transform:none;letter-spacing:.5px;font-weight:700}
+html[data-zd] #importCertPdfBtn:hover,html[data-zd] #bulkRenewBtn:hover,html[data-zd] #cardIdManagerBtn:hover,html[data-zd] #backfillFromSchulungBtn:hover,html[data-zd] .btn-xml:hover{background:var(--sg3)!important}
+html[data-zd] .chip-filter:not(.active),html[data-zd] .schicht-toggle:not(.active){background:var(--surface)!important;border:2px solid var(--border)!important;color:var(--text)!important}
+html[data-zd] .chip-filter:not(.active):hover,html[data-zd] .schicht-toggle:not(.active):hover{border-color:var(--sg)!important;color:var(--sg)!important}
+html[data-zd] .schicht-toggle.active,html[data-zd] .schicht-toggle.aktiv{background:var(--sg)!important;border-color:var(--sg)!important;color:#fff!important}
+
+/* Desktop: gleicher Rand links/rechts (32 px) und gleiche Kachel-Raster wie im Portal */
+@media(min-width:769px){
+  html[data-zd] .site-header,html[data-zd] .header{margin:12px 32px 0!important}
+  html[data-zd] body .grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:18px!important}
+  html[data-zd] main,html[data-zd] .main,html[data-zd] .shell,html[data-zd] .main-content,html[data-zd] .container,html[data-zd] .app-inner{padding-left:32px!important;padding-right:32px!important;box-sizing:border-box}
+  html[data-zd] body .audit-buttons{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:18px!important}
+  html[data-zd] body .tiles,html[data-zd] body .tile-grid{gap:18px!important}
+}
+
+/* Querformat am Handy / kleine Tablets: Kacheln kompakt, Titel ohne Abschneiden */
+@media (min-width:769px) and (max-width:1100px),(orientation:landscape) and (max-height:520px){
+html[data-zd] .audit-buttons{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))!important;gap:10px!important}
+html[data-zd] .audit-buttons[style*="grid-template-columns:repeat(3"]{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+html[data-zd] .audit-btn{min-height:100px!important;padding:10px 12px 9px!important;min-width:0!important}
+html[data-zd] .audit-btn>div{min-width:0;max-width:100%}
+html[data-zd] .audit-btn span:not(.btn-progress){font-size:clamp(10.5px,1.3vw,13px)!important;letter-spacing:-.15px!important;line-height:1.15!important;overflow-wrap:break-word;word-break:normal;hyphens:auto}
+html[data-zd] .audit-btn [style*="DM Mono"]{font-size:9.5px!important;letter-spacing:.4px!important;margin-bottom:2px!important}
+html[data-zd] .audit-btn .btn-icon{font-size:19px!important;margin-bottom:3px!important}
+html[data-zd] .audit-btn .btn-progress{font-size:10px!important;margin-top:4px!important;padding:1px 7px!important}
+html[data-zd] .audit-btn .tile-arrow-badge,html[data-zd] .audit-btn .tile-arrow-btn{width:26px!important;height:26px!important;font-size:11px!important;bottom:9px!important;right:10px!important}
+}
+
+/* Einheitliche Menü-Knöpfe (Vorbild: Ätzdatenbank) */
+html[data-zd] body .nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono),
+html[data-zd] body .zd-nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono),
+html[data-zd] body .tab-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono),
+html[data-zd] body .main-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono),
+html[data-zd] body .nd-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono){font-family:var(--zd-cond)!important;font-size:15px!important;font-weight:700!important;text-transform:none!important;letter-spacing:.2px!important;padding:9px 16px!important;border:2px solid var(--sg)!important;border-radius:4px!important;background:var(--surface)!important;color:var(--sg)!important;box-shadow:none!important;line-height:1.2}
+html[data-zd] body .nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono):hover,
+html[data-zd] body .zd-nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono):hover,
+html[data-zd] body .tab-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono):hover,
+html[data-zd] body .main-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono):hover,
+html[data-zd] body .nd-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono):hover{background:var(--sg3)!important;color:var(--sg)!important;border-color:var(--sg)!important}
+html[data-zd] body .nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono).active,
+html[data-zd] body .zd-nav-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono).active,
+html[data-zd] body .tab-btn:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono).active,
+html[data-zd] body .main-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono).active,
+html[data-zd] body .nd-tab:not(svg):not(code):not(pre):not(kbd):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.mono).active{background:var(--sg)!important;color:#fff!important;border-color:var(--sg)!important}
